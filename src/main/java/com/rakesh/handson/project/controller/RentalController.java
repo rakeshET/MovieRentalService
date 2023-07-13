@@ -1,9 +1,7 @@
 package com.rakesh.handson.project.controller;
 
-import com.rakesh.handson.project.Model.Movie;
-import com.rakesh.handson.project.Model.Rental;
-import com.rakesh.handson.project.Repo.MovieRepo;
-import com.rakesh.handson.project.Repo.RentalRepo;
+import com.rakesh.handson.project.model.Rental;
+import com.rakesh.handson.project.repository.RentalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +15,7 @@ import java.util.Optional;
 @RequestMapping
 public class RentalController {
     @Autowired
-    private RentalRepo rentalRepo;
+    private RentalRepository rentalRepo;
 
     @GetMapping("/getAllRentedMovies")
     public ResponseEntity<List<Rental>> getAllRentedMovies() {

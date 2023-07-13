@@ -1,4 +1,4 @@
-package com.rakesh.handson.project.Security;
+package com.rakesh.handson.project.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

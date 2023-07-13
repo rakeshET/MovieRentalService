@@ -1,12 +1,12 @@
-package com.rakesh.handson.project.Repo;
+package com.rakesh.handson.project.repository;
 
-import com.rakesh.handson.project.Model.Movie;
+import com.rakesh.handson.project.model.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface MovieRepo extends JpaRepository<Movie, Integer> {
+public interface MovieRepository extends JpaRepository<Movie, Integer> {
     Optional<Movie> findById(int id);
 }

@@ -1,7 +1,9 @@
 package com.rakesh.handson.project.controller;
 
-import com.rakesh.handson.project.Model.Movie;
-import com.rakesh.handson.project.Repo.MovieRepo;
+import com.rakesh.handson.project.contract.MovieResponse;
+import com.rakesh.handson.project.model.Movie;
+import com.rakesh.handson.project.repository.MovieRepository;
+import com.rakesh.handson.project.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,35 +16,22 @@ import java.util.Optional;
 @RestController
 @RequestMapping
 public class MovieController {
+
+    private final MovieService movieService;
+
     @Autowired
-    private MovieRepo movieRepo;
+    public MovieController(MovieService movieService) {
+        this.movieService = movieService;
+    }
 
     @GetMapping("/getAllMovies")
-    public ResponseEntity<List<Movie>> getAllMovies() {
-
-        try {
-            List<Movie> movieList = new ArrayList<>();
-            movieRepo.findAll().forEach(movieList::add);
-
-            if (movieList.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
-            }
-            return new ResponseEntity<>(movieList,HttpStatus.OK);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<List<MovieResponse>> getAllMovies() {
+        return new ResponseEntity<>(movieService.getAllMovies(), HttpStatus.OK);
     }
 
     @GetMapping("/getMovieById/{id}")
-    public ResponseEntity<Movie> getMovieById(@PathVariable int id) {
-        Optional<Movie> movieData = movieRepo.findById(Math.toIntExact(id));
-        if (movieData.isPresent()) {
-            return new ResponseEntity<>(movieData.get(), HttpStatus.OK);
-
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
+    public ResponseEntity<MovieResponse> getMovieById(@PathVariable int id) {
+        return new ResponseEntity<>(movieService.getMovieById(id), HttpStatus.OK);
     }
 
     @PostMapping("/addMovie")
@@ -65,10 +54,10 @@ public class MovieController {
             updatedMovieData.setStatus(newMovieData.getStatus());
 
             Movie movieObj = movieRepo.save(updatedMovieData);
-            return new ResponseEntity<>(movieObj,HttpStatus.OK);
+            return new ResponseEntity<>(movieObj, HttpStatus.OK);
 
         }
-        return new ResponseEntity<>( HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
@@ -76,7 +65,6 @@ public class MovieController {
     public ResponseEntity<HttpStatus> deleteMovieById(@PathVariable int id) {
         movieRepo.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
-
     }
 
 

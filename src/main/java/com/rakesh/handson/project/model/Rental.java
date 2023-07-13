@@ -1,4 +1,4 @@
-package com.rakesh.handson.project.Model;
+package com.rakesh.handson.project.model;
 
 
 import jakarta.persistence.*;

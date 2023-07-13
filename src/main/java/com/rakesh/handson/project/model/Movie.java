@@ -1,4 +1,4 @@
-package com.rakesh.handson.project.Model;
+package com.rakesh.handson.project.model;
 
 
 import jakarta.persistence.*;
@@ -21,7 +21,6 @@ public class Movie {
     private String genre;
     private int releaseYear;
     private String status;
-
 
 }
 
