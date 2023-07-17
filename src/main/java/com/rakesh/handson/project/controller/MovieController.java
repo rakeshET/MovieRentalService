@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping
+@RequestMapping("/Movies")
 public class MovieController {
 
     private final MovieService movieService;
@@ -22,29 +22,29 @@ public class MovieController {
         this.movieService = movieService;
     }
 
-    @GetMapping("/getAllMovies")
+    @GetMapping
     public ResponseEntity<List<MovieResponse>> getAllMovies() {
         return new ResponseEntity<>(movieService.getAllMovies(), HttpStatus.OK);
     }
 
-    @GetMapping("/getMovieById/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<MovieResponse> getMovieById(@PathVariable int id) {
         return new ResponseEntity<>(movieService.getMovieById(id), HttpStatus.OK);
     }
 
-    @PostMapping("/addMovie")
+    @PostMapping
     public ResponseEntity<MovieResponse> addMovie(@RequestBody Movie movie) {
         MovieResponse movieResponse = movieService.addMovie(movie);
         return new ResponseEntity<>(movieResponse, HttpStatus.CREATED);
     }
 
-    @PostMapping("/updateMovieById/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<MovieResponse> updateMovieById(@PathVariable int id, @RequestBody Movie movie) {
         MovieResponse updatedMovie = movieService.updateMovieById(id, movie);
         return new ResponseEntity<>(updatedMovie, HttpStatus.OK);
     }
 
-    @DeleteMapping("/deleteMovieById/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<String> deleteMovieById(@PathVariable int id) {
         movieService.deleteMovieById(id);
         return ResponseEntity.ok("Movie with ID " + id + " has been deleted.");

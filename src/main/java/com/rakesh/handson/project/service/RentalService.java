@@ -1,25 +1,21 @@
 package com.rakesh.handson.project.service;
 
-import com.rakesh.handson.project.contract.MovieResponse;
 import com.rakesh.handson.project.contract.RentalResponse;
 import com.rakesh.handson.project.exception.MovieNotFoundException;
 import com.rakesh.handson.project.exception.RentedMovieNotFoundException;
-import com.rakesh.handson.project.model.Movie;
 import com.rakesh.handson.project.model.Rental;
-import com.rakesh.handson.project.repository.MovieRepository;
 import com.rakesh.handson.project.repository.RentalRepository;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @Slf4j
+@Transactional
 public class RentalService {
     private final RentalRepository rentalRepository;
 

@@ -4,7 +4,6 @@ import com.rakesh.handson.project.contract.MovieResponse;
 import com.rakesh.handson.project.exception.MovieNotFoundException;
 import com.rakesh.handson.project.model.Movie;
 import com.rakesh.handson.project.repository.MovieRepository;
-import com.rakesh.handson.project.repository.RentalRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
