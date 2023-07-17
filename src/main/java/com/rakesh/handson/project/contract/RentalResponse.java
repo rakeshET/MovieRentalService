@@ -1,23 +1,15 @@
-package com.rakesh.handson.project.model;
+package com.rakesh.handson.project.contract;
 
-
-import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "Rentals")
+@Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter
-@Getter
-@ToString
-
-public class Rental {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+public class RentalResponse {
     private int id;
     private int movieId;
     private String userId;
@@ -25,6 +17,3 @@ public class Rental {
     private LocalDate returnDate;
 
 }
-
-
-

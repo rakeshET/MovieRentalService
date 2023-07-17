@@ -1,7 +1,11 @@
 package com.rakesh.handson.project.controller;
 
+import com.rakesh.handson.project.contract.MovieResponse;
+import com.rakesh.handson.project.contract.RentalResponse;
 import com.rakesh.handson.project.model.Rental;
 import com.rakesh.handson.project.repository.RentalRepository;
+import com.rakesh.handson.project.service.MovieService;
+import com.rakesh.handson.project.service.RentalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,69 +18,39 @@ import java.util.Optional;
 @RestController
 @RequestMapping
 public class RentalController {
+    private final RentalService rentalService;
+
     @Autowired
-    private RentalRepository rentalRepo;
+    public RentalController(RentalService rentalService) {
+        this.rentalService = rentalService;
+    }
 
-    @GetMapping("/getAllRentedMovies")
-    public ResponseEntity<List<Rental>> getAllRentedMovies() {
 
-        try {
-            List<Rental> rentalList = new ArrayList<>();
-            rentalRepo.findAll().forEach(rentalList::add);
-
-            if (rentalList.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
-            }
-            return new ResponseEntity<>(rentalList,HttpStatus.OK);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    @GetMapping("/RentedMovieList")
+    public ResponseEntity<List<RentalResponse>> getAllMovies() {
+        return new ResponseEntity<>(rentalService.RentedMovieList(), HttpStatus.OK);
     }
 
     @GetMapping("/getRentalMovieById/{id}")
     public ResponseEntity<Rental> getRentalMovieById(@PathVariable int id) {
-        Optional<Rental> rentalData = rentalRepo.findById(Math.toIntExact(id));
-        if (rentalData.isPresent()) {
-            return new ResponseEntity<>(rentalData.get(), HttpStatus.OK);
-
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
+        return null;
     }
 
     @PostMapping("/addRentalMovie")
-    public ResponseEntity<Rental> addRental(@RequestBody Rental rental) {
-        Rental rentalObj = rentalRepo.save(rental);
-
-        return new ResponseEntity<>(rentalObj, HttpStatus.OK);
+    public ResponseEntity<Rental> addRentalMovie(@RequestBody Rental rental) {
+        return null;
     }
 
     @PostMapping("/updateRentalMovieById/{id}")
-    public ResponseEntity<Rental> updateRentalMovieById(@PathVariable int id, @RequestBody Rental newRentalMovieData) {
-        Optional<Rental> oldRentalMovieData = rentalRepo.findById(id);
-        if (oldRentalMovieData.isPresent()) {
-            Rental updatedRentalData = oldRentalMovieData.get();
-
-            updatedRentalData.setId(newRentalMovieData.getId());
-            updatedRentalData.setMovieId(newRentalMovieData.getMovieId());
-            updatedRentalData.setUserId(newRentalMovieData.getUserId());
-            updatedRentalData.setRentalDate(newRentalMovieData.getRentalDate());
-            updatedRentalData.setReturnDate(newRentalMovieData.getReturnDate());
-
-            Rental rentalObj = rentalRepo.save(updatedRentalData);
-            return new ResponseEntity<>(rentalObj,HttpStatus.OK);
-
-        }
-        return new ResponseEntity<>( HttpStatus.OK);
-
+    public ResponseEntity<RentalResponse> updateRentalMovieById(@PathVariable int id, @RequestBody Rental rental) {
+        RentalResponse updatedRentalMovie = rentalService.updateMovieById(id, rental);
+        return new ResponseEntity<>(updatedRentalMovie, HttpStatus.OK);
     }
 
-    @DeleteMapping("/deleteRentalMovieById/{id}")
-    public ResponseEntity<HttpStatus> deleteRentalMovieById(@PathVariable int id) {
-        rentalRepo.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.OK);
-
+    @DeleteMapping("/deleteRentedMovieById/{id}")
+    public ResponseEntity<String> deleteRentedMovieById(@PathVariable int id) {
+        rentalService.deleteRentedMovieById(id);
+        return ResponseEntity.ok("Movie with ID " + id + " has been deleted.");
     }
 
 

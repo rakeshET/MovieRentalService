@@ -16,12 +16,10 @@ import java.util.List;
 @Slf4j
 public class MovieService {
     private final MovieRepository movieRepository;
-    private final RentalRepository rentalRepository;
 
     @Autowired
-    public MovieService(MovieRepository movieRepository, RentalRepository rentalRepository) {
+    public MovieService(MovieRepository movieRepository) {
         this.movieRepository = movieRepository;
-        this.rentalRepository = rentalRepository;
     }
 
 

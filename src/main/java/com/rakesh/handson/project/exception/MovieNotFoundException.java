@@ -5,3 +5,4 @@ public class MovieNotFoundException extends RuntimeException {
         super("Could not find movie with id: " + id);
     }
 }
+
