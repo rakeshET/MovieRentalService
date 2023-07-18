@@ -1,15 +1,23 @@
-package com.rakesh.handson.project.contract;
+package com.rakesh.handson.project.dto;
 
+
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
 
-@Builder
-@Getter
-@Setter
+@Entity
+@Table(name = "Rentals")
 @NoArgsConstructor
 @AllArgsConstructor
-public class RentalResponse {
+@Setter
+@Getter
+@ToString
+
+public class RentalRequest {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private int id;
     private int movieId;
     private String userId;
@@ -17,3 +25,6 @@ public class RentalResponse {
     private LocalDate returnDate;
 
 }
+
+
+

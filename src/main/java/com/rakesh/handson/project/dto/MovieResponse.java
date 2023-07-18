@@ -1,4 +1,4 @@
-package com.rakesh.handson.project.contract;
+package com.rakesh.handson.project.dto;
 
 import lombok.*;
 

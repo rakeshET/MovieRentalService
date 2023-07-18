@@ -1,106 +1,69 @@
 package com.rakesh.handson.project.service;
 
-import com.rakesh.handson.project.contract.RentalResponse;
+import com.rakesh.handson.project.dto.RentalRequest;
+import com.rakesh.handson.project.dto.RentalResponse;
 import com.rakesh.handson.project.exception.MovieNotFoundException;
 import com.rakesh.handson.project.exception.RentedMovieNotFoundException;
-import com.rakesh.handson.project.model.Rental;
 import com.rakesh.handson.project.repository.RentalRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
 @Transactional
 public class RentalService {
     private final RentalRepository rentalRepository;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public RentalService(RentalRepository rentalRepository) {
+    public RentalService(RentalRepository rentalRepository, ModelMapper modelMapper) {
         this.rentalRepository = rentalRepository;
+        this.modelMapper = modelMapper;
     }
 
-
-    public List<RentalResponse> RentedMovieList() {
-        List<Rental> rentals = this.rentalRepository.findAll();
-        List<RentalResponse> responses = new ArrayList<>();
-        for (Rental rented : rentals) {
-            responses.add(
-                    RentalResponse
-                            .builder()
-                            .id(rented.getId())
-                            .movieId(rented.getMovieId())
-                            .userId(rented.getUserId())
-                            .rentalDate(rented.getRentalDate())
-                            .returnDate(rented.getReturnDate())
-                            .build()
-            );
-        }
-        return responses;
+    public List<RentalResponse> rentedMovieList() {
+        List<RentalRequest> rentals = rentalRepository.findAll();
+        return rentals.stream()
+                .map(rental -> modelMapper.map(rental, RentalResponse.class))
+                .collect(Collectors.toList());
     }
-
 
     public RentalResponse getRentalMovieById(int id) {
-        Rental rental = this.rentalRepository.findById(id).orElseThrow(() -> {
-            log.error("Movie with id: {} not found", id);
+        RentalRequest rental = rentalRepository.findById(id).orElseThrow(() -> {
+            log.error("RentalRequest with id: {} not found", id);
             return new RentedMovieNotFoundException(id);
         });
-        return RentalResponse
-                .builder()
-                .id(rental.getId())
-                .movieId(rental.getMovieId())
-                .userId(rental.getUserId())
-                .rentalDate(rental.getRentalDate())
-                .returnDate(rental.getReturnDate())
-                .build();
+        return modelMapper.map(rental, RentalResponse.class);
     }
 
-
-    public RentalResponse addRentalMovie(Rental rental) {
-        rental.setMovieId(rental.getMovieId());
-        rental.setUserId(rental.getUserId());
-        rental.setRentalDate(rental.getRentalDate());
-        rental.setReturnDate(rental.getReturnDate());
-
-        Rental savedRentalMovie = rentalRepository.save(rental);
-
-        return RentalResponse.builder()
-                .id(savedRentalMovie.getId())
-                .movieId(savedRentalMovie.getMovieId())
-                .userId(savedRentalMovie.getUserId())
-                .rentalDate(savedRentalMovie.getRentalDate())
-                .returnDate(savedRentalMovie.getReturnDate())
-                .build();
+    public RentalResponse addRentalMovie(RentalRequest rental) {
+        RentalRequest savedRentalMovie = rentalRepository.save(rental);
+        return modelMapper.map(savedRentalMovie, RentalResponse.class);
     }
-    public RentalResponse updateMovieById(int id, Rental rental) {
-        Rental nonRentedMovie = rentalRepository.findById(id).orElseThrow(() -> {
-            log.error("Movie with id: {} not found", id);
+
+    public RentalResponse updateMovieById(int id, RentalRequest rental) {
+        RentalRequest nonRentedMovie = rentalRepository.findById(id).orElseThrow(() -> {
+            log.error("RentalRequest with id: {} not found", id);
             return new RentedMovieNotFoundException(id);
         });
 
-        nonRentedMovie.setMovieId(rental.getMovieId());
-        nonRentedMovie.setUserId(rental.getUserId());
-        nonRentedMovie.setRentalDate(rental.getRentalDate());
-        nonRentedMovie.setReturnDate(rental.getReturnDate());
-
-        Rental updatedRentalMovie = rentalRepository.save(nonRentedMovie);
-
-        return RentalResponse.builder()
-                .id(updatedRentalMovie.getId())
-                .movieId(updatedRentalMovie.getMovieId())
-                .userId(updatedRentalMovie.getUserId())
-                .rentalDate(updatedRentalMovie.getRentalDate())
-                .returnDate(updatedRentalMovie.getReturnDate())
-                .build();
+        modelMapper.map(rental, nonRentedMovie);
+        RentalRequest updatedRentalMovie = rentalRepository.save(nonRentedMovie);
+        return modelMapper.map(updatedRentalMovie, RentalResponse.class);
     }
+
     public void deleteRentedMovieById(int id) {
         if (!rentalRepository.existsById(id)) {
             throw new MovieNotFoundException(id);
         }
         rentalRepository.deleteById(id);
     }
+
+
 }

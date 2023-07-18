@@ -1,99 +1,60 @@
 package com.rakesh.handson.project.service;
 
-import com.rakesh.handson.project.contract.MovieResponse;
+import com.rakesh.handson.project.dto.MovieRequest;
+import com.rakesh.handson.project.dto.MovieResponse;
 import com.rakesh.handson.project.exception.MovieNotFoundException;
-import com.rakesh.handson.project.model.Movie;
 import com.rakesh.handson.project.repository.MovieRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
 public class MovieService {
     private final MovieRepository movieRepository;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public MovieService(MovieRepository movieRepository) {
+    public MovieService(MovieRepository movieRepository, ModelMapper modelMapper) {
         this.movieRepository = movieRepository;
+        this.modelMapper = modelMapper;
     }
-
 
     public List<MovieResponse> getAllMovies() {
-        List<Movie> movies = this.movieRepository.findAll();
-        List<MovieResponse> responses = new ArrayList<>();
-        for (Movie movie : movies) {
-            responses.add(
-                    MovieResponse
-                            .builder()
-                            .id(movie.getId())
-                            .title(movie.getTitle())
-                            .genre(movie.getGenre())
-                            .releaseYear(movie.getReleaseYear())
-                            .status(movie.getStatus())
-                            .build()
-            );
-        }
-        return responses;
+        List<MovieRequest> movies = movieRepository.findAll();
+        return movies.stream()
+                .map(movie -> modelMapper.map(movie, MovieResponse.class))
+                .collect(Collectors.toList());
     }
-
 
     public MovieResponse getMovieById(int id) {
-        Movie movie = this.movieRepository.findById(id).orElseThrow(() -> {
-            log.error("Movie with id: {} not found", id);
+        MovieRequest movie = movieRepository.findById(id).orElseThrow(() -> {
+            log.error("MovieRequest with id: {} not found", id);
             return new MovieNotFoundException(id);
         });
-        return MovieResponse
-                .builder()
-                .id(movie.getId())
-                .title(movie.getTitle())
-                .genre(movie.getGenre())
-                .releaseYear(movie.getReleaseYear())
-                .status(movie.getStatus())
-                .build();
+        return modelMapper.map(movie, MovieResponse.class);
     }
 
-
-    public MovieResponse addMovie(Movie movie) {
-        movie.setTitle(movie.getTitle());
-        movie.setGenre(movie.getGenre());
-        movie.setReleaseYear(movie.getReleaseYear());
-        movie.setStatus(movie.getStatus());
-
-        Movie savedMovie = movieRepository.save(movie);
-
-        return MovieResponse.builder()
-                .id(savedMovie.getId())
-                .title(savedMovie.getTitle())
-                .genre(savedMovie.getGenre())
-                .releaseYear(savedMovie.getReleaseYear())
-                .status(savedMovie.getStatus())
-                .build();
+    public MovieResponse addMovie(MovieRequest movie) {
+        MovieRequest savedMovie = movieRepository.save(movie);
+        return modelMapper.map(savedMovie, MovieResponse.class);
     }
-    public MovieResponse updateMovieById(int id, Movie movie) {
-        Movie existingMovie = movieRepository.findById(id).orElseThrow(() -> {
-            log.error("Movie with id: {} not found", id);
+
+    public MovieResponse updateMovieById(int id, MovieRequest movie) {
+        MovieRequest existingMovie = movieRepository.findById(id).orElseThrow(() -> {
+            log.error("MovieRequest with id: {} not found", id);
             return new MovieNotFoundException(id);
         });
 
-        existingMovie.setTitle(movie.getTitle());
-        existingMovie.setGenre(movie.getGenre());
-        existingMovie.setReleaseYear(movie.getReleaseYear());
-        existingMovie.setStatus(movie.getStatus());
-
-        Movie updatedMovie = movieRepository.save(existingMovie);
-
-        return MovieResponse.builder()
-                .id(updatedMovie.getId())
-                .title(updatedMovie.getTitle())
-                .genre(updatedMovie.getGenre())
-                .releaseYear(updatedMovie.getReleaseYear())
-                .status(updatedMovie.getStatus())
-                .build();
+        modelMapper.map(movie, existingMovie);
+        MovieRequest updatedMovie = movieRepository.save(existingMovie);
+        return modelMapper.map(updatedMovie, MovieResponse.class);
     }
+
     public void deleteMovieById(int id) {
         if (!movieRepository.existsById(id)) {
             throw new MovieNotFoundException(id);

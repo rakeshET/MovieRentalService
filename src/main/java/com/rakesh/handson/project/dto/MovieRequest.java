@@ -1,4 +1,4 @@
-package com.rakesh.handson.project.model;
+package com.rakesh.handson.project.dto;
 
 
 import jakarta.persistence.*;
@@ -12,7 +12,7 @@ import lombok.*;
 @Getter
 @ToString
 
-public class Movie {
+public class MovieRequest {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
