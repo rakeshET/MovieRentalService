@@ -1,7 +1,7 @@
 package com.rakesh.handson.project.controller;
 
-import com.rakesh.handson.project.dto.RentalRequest;
-import com.rakesh.handson.project.dto.RentalResponse;
+import com.rakesh.handson.project.model.Rental;
+import com.rakesh.handson.project.contract.RentalDto;
 import com.rakesh.handson.project.service.RentalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,31 +22,31 @@ public class RentalController {
 
 
     @GetMapping
-    public ResponseEntity<List<RentalResponse>> rentedMovieList() {
+    public ResponseEntity<List<RentalDto>> rentedMovieList() {
         return new ResponseEntity<>(rentalService.rentedMovieList(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RentalResponse> getRentalMovieById(@PathVariable int id) {
+    public ResponseEntity<RentalDto> getRentalMovieById(@PathVariable int id) {
         return new ResponseEntity<>(rentalService.getRentalMovieById(id), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<RentalResponse> addRentalMovie(@RequestBody RentalRequest rental) {
-        RentalResponse rentalResponse = rentalService.addRentalMovie(rental);
+    public ResponseEntity<RentalDto> addRentalMovie(@RequestBody RentalDto rentalDto) {
+        RentalDto rentalResponse = rentalService.addRentalMovie(rentalDto);
         return new ResponseEntity<>(rentalResponse, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RentalResponse> updateRentalMovieById(@PathVariable int id, @RequestBody RentalRequest rental) {
-        RentalResponse updatedRentalMovie = rentalService.updateMovieById(id, rental);
+    public ResponseEntity<RentalDto> updateRentalMovieById(@PathVariable int id, @RequestBody RentalDto rental) {
+        RentalDto updatedRentalMovie = rentalService.updateRentalMovieById(id, rental);
         return new ResponseEntity<>(updatedRentalMovie, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteRentedMovieById(@PathVariable int id) {
         rentalService.deleteRentedMovieById(id);
-        return ResponseEntity.ok("MovieRequest with ID " + id + " has been deleted.");
+        return ResponseEntity.ok("Movie with ID " + id + " has been deleted.");
     }
 
 

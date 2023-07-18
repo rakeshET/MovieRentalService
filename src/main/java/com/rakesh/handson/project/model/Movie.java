@@ -1,18 +1,17 @@
-package com.rakesh.handson.project.dto;
+package com.rakesh.handson.project.model;
 
 
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "Movies")
-@NoArgsConstructor
+@Table(name = "movies")
 @AllArgsConstructor
+@NoArgsConstructor
 @Setter
 @Getter
-@ToString
 
-public class MovieRequest {
+public class Movie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)

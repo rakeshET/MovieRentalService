@@ -1,8 +1,8 @@
 package com.rakesh.handson.project.service;
 
-import com.rakesh.handson.project.dto.MovieRequest;
-import com.rakesh.handson.project.dto.MovieResponse;
+import com.rakesh.handson.project.contract.MovieDto;
 import com.rakesh.handson.project.exception.MovieNotFoundException;
+import com.rakesh.handson.project.model.Movie;
 import com.rakesh.handson.project.repository.MovieRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -24,35 +24,36 @@ public class MovieService {
         this.modelMapper = modelMapper;
     }
 
-    public List<MovieResponse> getAllMovies() {
-        List<MovieRequest> movies = movieRepository.findAll();
+    public List<MovieDto> getAllMovies() {
+        List<Movie> movies = movieRepository.findAll();
         return movies.stream()
-                .map(movie -> modelMapper.map(movie, MovieResponse.class))
+                .map(movie -> modelMapper.map(movie, MovieDto.class))
                 .collect(Collectors.toList());
     }
 
-    public MovieResponse getMovieById(int id) {
-        MovieRequest movie = movieRepository.findById(id).orElseThrow(() -> {
-            log.error("MovieRequest with id: {} not found", id);
+    public MovieDto getMovieById(int id) {
+        Movie movie = movieRepository.findById(id).orElseThrow(() -> {
+            log.error("Movie with id: {} not found", id);
             return new MovieNotFoundException(id);
         });
-        return modelMapper.map(movie, MovieResponse.class);
+        return modelMapper.map(movie, MovieDto.class);
     }
 
-    public MovieResponse addMovie(MovieRequest movie) {
-        MovieRequest savedMovie = movieRepository.save(movie);
-        return modelMapper.map(savedMovie, MovieResponse.class);
+    public MovieDto addMovie(MovieDto movieDto) {
+        Movie movieEntity = modelMapper.map(movieDto, Movie.class);
+        Movie savedMovie = movieRepository.save(movieEntity);
+        return modelMapper.map(savedMovie, MovieDto.class);
     }
 
-    public MovieResponse updateMovieById(int id, MovieRequest movie) {
-        MovieRequest existingMovie = movieRepository.findById(id).orElseThrow(() -> {
-            log.error("MovieRequest with id: {} not found", id);
+    public MovieDto updateMovieById(int id, MovieDto movieDto) {
+        Movie existingMovie = movieRepository.findById(id).orElseThrow(() -> {
+            log.error("Movie with id: {} not found", id);
             return new MovieNotFoundException(id);
         });
 
-        modelMapper.map(movie, existingMovie);
-        MovieRequest updatedMovie = movieRepository.save(existingMovie);
-        return modelMapper.map(updatedMovie, MovieResponse.class);
+        modelMapper.map(movieDto, existingMovie);
+        Movie updatedMovie = movieRepository.save(existingMovie);
+        return modelMapper.map(updatedMovie, MovieDto.class);
     }
 
     public void deleteMovieById(int id) {

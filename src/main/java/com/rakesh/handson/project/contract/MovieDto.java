@@ -1,4 +1,4 @@
-package com.rakesh.handson.project.dto;
+package com.rakesh.handson.project.contract;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MovieResponse {
+public class MovieDto {
     private int id;
     private String title;
     private String genre;

@@ -1,7 +1,8 @@
 package com.rakesh.handson.project.service;
 
-import com.rakesh.handson.project.dto.RentalRequest;
-import com.rakesh.handson.project.dto.RentalResponse;
+import com.rakesh.handson.project.model.Movie;
+import com.rakesh.handson.project.model.Rental;
+import com.rakesh.handson.project.contract.RentalDto;
 import com.rakesh.handson.project.exception.MovieNotFoundException;
 import com.rakesh.handson.project.exception.RentedMovieNotFoundException;
 import com.rakesh.handson.project.repository.RentalRepository;
@@ -27,35 +28,36 @@ public class RentalService {
         this.modelMapper = modelMapper;
     }
 
-    public List<RentalResponse> rentedMovieList() {
-        List<RentalRequest> rentals = rentalRepository.findAll();
+    public List<RentalDto> rentedMovieList() {
+        List<Rental> rentals = rentalRepository.findAll();
         return rentals.stream()
-                .map(rental -> modelMapper.map(rental, RentalResponse.class))
+                .map(rental -> modelMapper.map(rental, RentalDto.class))
                 .collect(Collectors.toList());
     }
 
-    public RentalResponse getRentalMovieById(int id) {
-        RentalRequest rental = rentalRepository.findById(id).orElseThrow(() -> {
-            log.error("RentalRequest with id: {} not found", id);
+    public RentalDto getRentalMovieById(int id) {
+        Rental rental = rentalRepository.findById(id).orElseThrow(() -> {
+            log.error("Rental with id: {} not found", id);
             return new RentedMovieNotFoundException(id);
         });
-        return modelMapper.map(rental, RentalResponse.class);
+        return modelMapper.map(rental, RentalDto.class);
     }
 
-    public RentalResponse addRentalMovie(RentalRequest rental) {
-        RentalRequest savedRentalMovie = rentalRepository.save(rental);
-        return modelMapper.map(savedRentalMovie, RentalResponse.class);
+    public RentalDto addRentalMovie(RentalDto rentalDto) {
+        Rental rentalEntity = modelMapper.map(rentalDto, Rental.class);
+        Rental savedRentalMovie = rentalRepository.save(rentalEntity);
+        return modelMapper.map(savedRentalMovie, RentalDto.class);
     }
 
-    public RentalResponse updateMovieById(int id, RentalRequest rental) {
-        RentalRequest nonRentedMovie = rentalRepository.findById(id).orElseThrow(() -> {
-            log.error("RentalRequest with id: {} not found", id);
+    public RentalDto updateRentalMovieById(int id, RentalDto rentalDto) {
+        Rental nonRentedMovie = rentalRepository.findById(id).orElseThrow(() -> {
+            log.error("Rental with id: {} not found", id);
             return new RentedMovieNotFoundException(id);
         });
 
-        modelMapper.map(rental, nonRentedMovie);
-        RentalRequest updatedRentalMovie = rentalRepository.save(nonRentedMovie);
-        return modelMapper.map(updatedRentalMovie, RentalResponse.class);
+        modelMapper.map(rentalDto, nonRentedMovie);
+        Rental updatedRentalMovie = rentalRepository.save(nonRentedMovie);
+        return modelMapper.map(updatedRentalMovie, RentalDto.class);
     }
 
     public void deleteRentedMovieById(int id) {
