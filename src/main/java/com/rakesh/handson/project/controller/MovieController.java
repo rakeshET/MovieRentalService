@@ -1,8 +1,8 @@
 package com.rakesh.handson.project.controller;
 
 import com.rakesh.handson.project.contract.MovieDto;
-import com.rakesh.handson.project.model.Movie;
 import com.rakesh.handson.project.service.MovieService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,14 +31,20 @@ public class MovieController {
         return new ResponseEntity<>(movieService.getMovieById(id), HttpStatus.OK);
     }
 
+    @GetMapping("/status/{status}")
+    public ResponseEntity<List<MovieDto>> getMoviesByStatus(@PathVariable("status") String status) {
+        List<MovieDto> moviesByStatus = movieService.getMoviesByStatus(status);
+        return new ResponseEntity<>(moviesByStatus, HttpStatus.OK);
+    }
+
     @PostMapping
-    public ResponseEntity<MovieDto> addMovie(@RequestBody MovieDto movieDto) {
+    public ResponseEntity<MovieDto> addMovie(@Valid @RequestBody MovieDto movieDto) {
         MovieDto savedMovieDto = movieService.addMovie(movieDto);
         return new ResponseEntity<>(savedMovieDto, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MovieDto> updateMovieById(@PathVariable int id, @RequestBody MovieDto movie) {
+    public ResponseEntity<MovieDto> updateMovieById(@PathVariable int id, @Valid @RequestBody MovieDto movie) {
         MovieDto updatedMovie = movieService.updateMovieById(id, movie);
         return new ResponseEntity<>(updatedMovie, HttpStatus.OK);
     }

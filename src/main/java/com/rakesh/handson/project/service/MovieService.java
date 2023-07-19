@@ -38,6 +38,12 @@ public class MovieService {
         });
         return modelMapper.map(movie, MovieDto.class);
     }
+    public List<MovieDto> getMoviesByStatus(String status) {
+        List<Movie> movies = movieRepository.findByStatus(status);
+        return movies.stream()
+                .map(movie -> modelMapper.map(movie, MovieDto.class))
+                .collect(Collectors.toList());
+    }
 
     public MovieDto addMovie(MovieDto movieDto) {
         Movie movieEntity = modelMapper.map(movieDto, Movie.class);
@@ -62,4 +68,5 @@ public class MovieService {
         }
         movieRepository.deleteById(id);
     }
+
 }

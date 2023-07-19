@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class RentalDto {
     private int id;
-    private int movieId;
+    private String movieId;
     private String userId;
     private LocalDate rentalDate;
     private LocalDate returnDate;

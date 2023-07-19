@@ -3,6 +3,7 @@ package com.rakesh.handson.project.controller;
 import com.rakesh.handson.project.model.Rental;
 import com.rakesh.handson.project.contract.RentalDto;
 import com.rakesh.handson.project.service.RentalService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,13 +33,13 @@ public class RentalController {
     }
 
     @PostMapping
-    public ResponseEntity<RentalDto> addRentalMovie(@RequestBody RentalDto rentalDto) {
+    public ResponseEntity<RentalDto> addRentalMovie(@Valid @RequestBody RentalDto rentalDto) {
         RentalDto rentalResponse = rentalService.addRentalMovie(rentalDto);
         return new ResponseEntity<>(rentalResponse, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RentalDto> updateRentalMovieById(@PathVariable int id, @RequestBody RentalDto rental) {
+    public ResponseEntity<RentalDto> updateRentalMovieById(@PathVariable int id, @Valid@RequestBody RentalDto rental) {
         RentalDto updatedRentalMovie = rentalService.updateRentalMovieById(id, rental);
         return new ResponseEntity<>(updatedRentalMovie, HttpStatus.OK);
     }
