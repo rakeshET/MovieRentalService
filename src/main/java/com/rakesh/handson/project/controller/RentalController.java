@@ -1,6 +1,5 @@
 package com.rakesh.handson.project.controller;
 
-import com.rakesh.handson.project.model.Rental;
 import com.rakesh.handson.project.contract.RentalDto;
 import com.rakesh.handson.project.service.RentalService;
 import jakarta.validation.Valid;

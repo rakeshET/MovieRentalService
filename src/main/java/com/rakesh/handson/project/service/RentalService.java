@@ -1,6 +1,5 @@
 package com.rakesh.handson.project.service;
 
-import com.rakesh.handson.project.model.Movie;
 import com.rakesh.handson.project.model.Rental;
 import com.rakesh.handson.project.contract.RentalDto;
 import com.rakesh.handson.project.exception.MovieNotFoundException;

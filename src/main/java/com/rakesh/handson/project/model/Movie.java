@@ -13,7 +13,6 @@ import java.time.Year;
 @Table(name = "movies")
 @AllArgsConstructor
 @NoArgsConstructor
-@Setter
 @Getter
 
 public class Movie {

@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class MovieService {
     private final MovieRepository movieRepository;
+
     private final ModelMapper modelMapper;
 
     @Autowired
@@ -38,6 +39,7 @@ public class MovieService {
         });
         return modelMapper.map(movie, MovieDto.class);
     }
+
     public List<MovieDto> getMoviesByStatus(String status) {
         List<Movie> movies = movieRepository.findByStatus(status);
         return movies.stream()
