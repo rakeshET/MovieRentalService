@@ -3,13 +3,12 @@ package com.rakesh.handson.project.controller;
 import com.rakesh.handson.project.contract.MovieDto;
 import com.rakesh.handson.project.service.MovieService;
 import jakarta.validation.Valid;
+import java.util.List;
 import org.apache.commons.text.WordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/Movies")
@@ -36,7 +35,6 @@ public class MovieController {
         return new ResponseEntity<>(movieService.getMovieById(id), HttpStatus.OK);
     }
 
-
     @GetMapping("/status/{status}")
     public ResponseEntity<List<MovieDto>> getMoviesByStatus(@PathVariable("status") String status) {
         String formattedStatus = convertToTitleCase(status);
@@ -48,7 +46,6 @@ public class MovieController {
         return WordUtils.capitalizeFully(status);
     }
 
-
     @PostMapping
     public ResponseEntity<MovieDto> addMovie(@Valid @RequestBody MovieDto movieDto) {
         MovieDto savedMovieDto = movieService.addMovie(movieDto);
@@ -59,7 +56,8 @@ public class MovieController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MovieDto> updateMovieById(@PathVariable int id, @Valid @RequestBody MovieDto movie) {
+    public ResponseEntity<MovieDto> updateMovieById(
+            @PathVariable int id, @Valid @RequestBody MovieDto movie) {
         MovieDto updatedMovie = movieService.updateMovieById(id, movie);
         return new ResponseEntity<>(updatedMovie, HttpStatus.OK);
     }
@@ -69,5 +67,4 @@ public class MovieController {
         movieService.deleteMovieById(id);
         return ResponseEntity.ok("Movie with ID " + id + " has been deleted.");
     }
-
 }

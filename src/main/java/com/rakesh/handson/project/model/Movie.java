@@ -1,17 +1,14 @@
 package com.rakesh.handson.project.model;
 
-
 import jakarta.persistence.*;
-import lombok.*;
-
 import java.time.Year;
+import lombok.*;
 
 @Entity
 @Table(name = "movies")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-
 public class Movie {
 
     @Id
@@ -25,9 +22,4 @@ public class Movie {
     private Year releaseYear;
 
     private String status;
-
-
 }
-
-
-

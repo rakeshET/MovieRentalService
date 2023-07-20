@@ -1,9 +1,7 @@
 package com.rakesh.handson.project.validation.movies;
 
-import com.rakesh.handson.project.validation.movies.GenreValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
-
 import java.lang.annotation.*;
 
 @Target({ElementType.FIELD})

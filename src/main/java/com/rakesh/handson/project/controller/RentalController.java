@@ -3,12 +3,11 @@ package com.rakesh.handson.project.controller;
 import com.rakesh.handson.project.contract.RentalDto;
 import com.rakesh.handson.project.service.RentalService;
 import jakarta.validation.Valid;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/RentedMovieList")
@@ -19,7 +18,6 @@ public class RentalController {
     public RentalController(RentalService rentalService) {
         this.rentalService = rentalService;
     }
-
 
     @GetMapping
     public ResponseEntity<List<RentalDto>> rentedMovieList() {
@@ -38,7 +36,8 @@ public class RentalController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RentalDto> updateRentalMovieById(@PathVariable int id, @Valid@RequestBody RentalDto rental) {
+    public ResponseEntity<RentalDto> updateRentalMovieById(
+            @PathVariable int id, @Valid @RequestBody RentalDto rental) {
         RentalDto updatedRentalMovie = rentalService.updateRentalMovieById(id, rental);
         return new ResponseEntity<>(updatedRentalMovie, HttpStatus.OK);
     }
@@ -48,6 +47,4 @@ public class RentalController {
         rentalService.deleteRentedMovieById(id);
         return ResponseEntity.ok("Movie with ID " + id + " has been deleted.");
     }
-
-
 }

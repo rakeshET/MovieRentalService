@@ -7,16 +7,14 @@ import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
-import lombok.*;
-
 import java.time.LocalDate;
+import lombok.*;
 
 @Builder
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class RentalDto {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
@@ -35,13 +33,4 @@ public class RentalDto {
     @NotNull(message = "Return date should be provided")
     @FutureOrPresent(message = "Return date should be in the present or future")
     private LocalDate returnDate;
-
 }
-
-//    private int id;
-//    private String movieId;
-//    private String userId;
-//    private LocalDate rentalDate;
-//    private LocalDate returnDate;
-
-

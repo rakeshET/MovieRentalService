@@ -1,7 +1,6 @@
 package com.rakesh.handson.project;
 
 import org.modelmapper.ModelMapper;
-
 import org.modelmapper.config.Configuration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,5 +21,4 @@ public class MovieRentalStoreApplication {
                 .setFieldAccessLevel(Configuration.AccessLevel.PRIVATE);
         return mapper;
     }
-
 }

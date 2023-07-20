@@ -5,4 +5,3 @@ public class RentedMovieNotFoundException extends RuntimeException {
         super("Could not find movie with id: " + id);
     }
 }
-

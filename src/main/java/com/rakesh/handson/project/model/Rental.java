@@ -1,18 +1,16 @@
 package com.rakesh.handson.project.model;
 
-
 import jakarta.persistence.*;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "rentals")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-
 public class Rental {
 
     @Id
@@ -26,8 +24,4 @@ public class Rental {
     private LocalDate rentalDate;
 
     private LocalDate returnDate;
-
 }
-
-
-

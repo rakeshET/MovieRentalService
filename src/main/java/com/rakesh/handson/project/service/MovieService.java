@@ -4,13 +4,12 @@ import com.rakesh.handson.project.contract.MovieDto;
 import com.rakesh.handson.project.exception.MovieNotFoundException;
 import com.rakesh.handson.project.model.Movie;
 import com.rakesh.handson.project.repository.MovieRepository;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -33,10 +32,14 @@ public class MovieService {
     }
 
     public MovieDto getMovieById(int id) {
-        Movie movie = movieRepository.findById(id).orElseThrow(() -> {
-            log.error("Movie with id: {} not found", id);
-            return new MovieNotFoundException(id);
-        });
+        Movie movie =
+                movieRepository
+                        .findById(id)
+                        .orElseThrow(
+                                () -> {
+                                    log.error("Movie with id: {} not found", id);
+                                    return new MovieNotFoundException(id);
+                                });
         return modelMapper.map(movie, MovieDto.class);
     }
 
@@ -54,10 +57,14 @@ public class MovieService {
     }
 
     public MovieDto updateMovieById(int id, MovieDto movieDto) {
-        Movie existingMovie = movieRepository.findById(id).orElseThrow(() -> {
-            log.error("Movie with id: {} not found", id);
-            return new MovieNotFoundException(id);
-        });
+        Movie existingMovie =
+                movieRepository
+                        .findById(id)
+                        .orElseThrow(
+                                () -> {
+                                    log.error("Movie with id: {} not found", id);
+                                    return new MovieNotFoundException(id);
+                                });
 
         modelMapper.map(movieDto, existingMovie);
         Movie updatedMovie = movieRepository.save(existingMovie);
@@ -70,5 +77,4 @@ public class MovieService {
         }
         movieRepository.deleteById(id);
     }
-
 }
