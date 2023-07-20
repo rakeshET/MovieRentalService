@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/Movies")
+@RequestMapping("/movies")
 public class MovieController {
     private final MovieService movieService;
     private int counter = 1;

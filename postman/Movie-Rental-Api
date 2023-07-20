@@ -1,0 +1,263 @@
+{
+	"info": {
+		"_postman_id": "ce1fd6bc-6ac4-4e96-b504-53b5af22438a",
+		"name": "MOVIE RENTAL APP",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "28430410"
+	},
+	"item": [
+		{
+			"name": "Movies API",
+			"item": [
+				{
+					"name": "Movies List",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "password",
+								"username": "admin"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Movies",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Movies"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "4",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Movies List By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/Movies/4"
+					},
+					"response": []
+				},
+				{
+					"name": "Add A Movie To List",
+					"protocolProfileBehavior": {
+						"followOriginalHttpMethod": true,
+						"followAuthorizationHeader": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "password",
+								"username": "admin"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"title\": \"Movie 65\",\r\n\"genre\": \"Romance\",\r\n\"releaseYear\": \"2017\",\r\n\"status\": \"Available\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/Movies"
+					},
+					"response": []
+				},
+				{
+					"name": "Update An Existing Movie",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"id\": 5,\r\n\"title\": \"Movie 5\",\r\n\"genre\": \"Science Comedy\",\r\n\"releaseYear\": \"2018\",\r\n\"status\": \"Rented\"\r\n}"
+						},
+						"url": "http://localhost:8080/Movies/5"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete A Movie By Id",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "password",
+								"username": "admin"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"id\": 5,\r\n\"title\": \"Movie 5\",\r\n\"genre\": \"Science Comedy\",\r\n\"releaseYear\": \"2018\",\r\n\"status\": \"Rented\"\r\n}"
+						},
+						"url": "http://localhost:8080/Movies/5"
+					},
+					"response": []
+				},
+				{
+					"name": "Search Movie By Status as Available /Rented",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "password",
+								"username": "admin"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"id\": 5,\r\n\"title\": \"Movie 5\",\r\n\"genre\": \"Science Comedy\",\r\n\"releaseYear\": \"2018\",\r\n\"status\": \"Rented\"\r\n}"
+						},
+						"url": "http://localhost:8080/Movies/status/rented"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Rentals API",
+			"item": [
+				{
+					"name": "Rented Movies List",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "password",
+								"username": "admin"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/Movies",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"Movies"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "4",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Rented Movies List By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/Movies/4"
+					},
+					"response": []
+				},
+				{
+					"name": "Add A Rented Movie To List",
+					"protocolProfileBehavior": {
+						"followOriginalHttpMethod": true,
+						"followAuthorizationHeader": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "password",
+								"username": "admin"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"title\": \"Movie 65\",\r\n\"genre\": \"Romance\",\r\n\"releaseYear\": \"2017\",\r\n\"status\": \"Available\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/Movies"
+					},
+					"response": []
+				},
+				{
+					"name": "Update A Rented Movie",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "password",
+								"username": "admin"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 1852,\r\n    \"movieId\": \"556892\",\r\n    \"userId\": \"khjgugyt\",\r\n    \"rentalDate\": \"2022-07-25\",\r\n    \"returnDate\": \"2026-07-18\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/rented-movies/1852"
+					},
+					"response": []
+				},
+				{
+					"name": "Remove A Movie From Rented Listopy",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {
+								"password": "password",
+								"username": "admin"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"id\": 5,\r\n\"title\": \"Movie 5\",\r\n\"genre\": \"Science Comedy\",\r\n\"releaseYear\": \"2018\",\r\n\"status\": \"Rented\"\r\n}"
+						},
+						"url": "http://localhost:8080/Movies/5"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
