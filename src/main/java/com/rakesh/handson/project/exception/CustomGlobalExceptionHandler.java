@@ -57,9 +57,3 @@ public class CustomGlobalExceptionHandler {
         return new ResponseEntity<>(errorMessages, HttpStatus.BAD_REQUEST);
     }
 }
-//    @ExceptionHandler(MovieNotFoundException.class)
-//    @ResponseStatus(HttpStatus.NOT_FOUND)
-//    @ResponseBody
-//    public ResponseEntity<Object> handleMovieNotFound(MovieNotFoundException e) {
-//        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-//    }
