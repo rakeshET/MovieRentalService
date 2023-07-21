@@ -2,7 +2,9 @@ package com.rakesh.handson.project.model;
 
 import jakarta.persistence.*;
 import java.time.Year;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "movies")
